@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import 'tailwindcss';
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Montserrat', sans-serif !important;
+  color: white;
+
+  cursor: url('https://assets.pokemon.com/static2/_ui/img/favicon.ico')
+      8 8,
+    auto;
+}
+
+.main-app {
+  padding: 2rem;
+  background-blend-mode: soft-light, normal;
+  height: 100vh;
+}
+
+.main-app .wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0.1;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.75s ease-in-out forwards;
+}

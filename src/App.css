@@ -1,0 +1,38 @@
+.number {
+  font-size: 19.5vmax;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.918);
+  user-select: none;
+}
+
+.active {
+  border-bottom: 2px solid white;
+}
+
+ul {
+  /* height: 28px; */
+  overflow-y: hidden;
+  list-style-type: none;
+}
+
+li {
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  white-space: pre;
+}
+.list {
+  text-transform: capitalize;
+  padding: 0 1.2rem;
+}
+
+.stats {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 20% 80%;
+  gap: 1.3rem;
+}
+
+:focus {
+  outline: none;
+}
