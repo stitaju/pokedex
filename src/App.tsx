@@ -72,9 +72,11 @@ function App() {
   useEffect(() => {
     fetchSpecies(setSpecies, listItemRefs);
     setTimeout(() => {
+      console.log('clicked focused');
+
       mainRef.current?.focus();
       listItemRefs?.current[0]?.click();
-    });
+    }, 50);
   }, []);
 
   return (

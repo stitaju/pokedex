@@ -48,12 +48,9 @@ export const fetchPokemonDetails = async (
     const updatedStats: GenericPokemonStats = {};
 
     pokemonData.stats.forEach((stat: PokemonStatDetail) => {
-      console.log('Sttat', stat);
-
       updatedStats[toCamelCase(stat.stat.name)] =
         stat.base_stat;
     });
-    console.log('updatedStats', updatedStats);
     setPokemonStats(updatedStats as PokemonStats);
   } catch (error) {
     console.error('Error fetching Pokémon details:', error);

@@ -14,8 +14,6 @@ export const fetchSpecies = async (
     );
     const sortedSpecies = sortByEvolution(data);
     setSpecies(sortedSpecies);
-    console.log(sortedSpecies);
-
     setTimeout(() => {
       listItemRefs?.current[0]?.click();
     });
