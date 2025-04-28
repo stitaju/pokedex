@@ -19,7 +19,7 @@ import { Main } from './components/layout/Main';
 import { PokemonSpecies, SelectedPokemon } from './types';
 
 function App() {
-  const [, setIndex] = useState(0);
+  const [index, setIndex] = useState(0);
   const [species, setSpecies] = useState<PokemonSpecies[]>(
     []
   );
@@ -60,7 +60,7 @@ function App() {
 
   useEffect(() => {
     fetchSpecies(setSpecies, listItemRefs);
-
+    handleSpeciesClick(species[0], index);
     setTimeout(() => {
       mainRef.current?.focus();
     }, 0);
