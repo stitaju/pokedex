@@ -70,14 +70,11 @@ function App() {
   };
 
   useEffect(() => {
-    fetchSpecies(
-      setSpecies,
-      listItemRefs,
-      setSelectedPokemon
-    );
+    fetchSpecies(setSpecies, listItemRefs);
     setTimeout(() => {
       mainRef.current?.focus();
-    }, 0);
+      listItemRefs?.current[0]?.click();
+    });
   }, []);
 
   return (
