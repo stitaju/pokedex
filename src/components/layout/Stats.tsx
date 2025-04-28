@@ -2,7 +2,7 @@ import { Progressbar } from '../ui/Progressbar';
 
 interface Props {
   label: string;
-  stat: string;
+  stat: string | number;
 }
 const Stats = ({ label, stat }: Props) => {
   return (

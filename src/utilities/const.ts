@@ -11,12 +11,12 @@ export const INITIAL_DETAIL = {
 };
 
 export const INITIAL_STATS = {
-  hp: '',
-  attack: '',
-  defense: '',
-  specialAttack: '',
-  specialDefense: '',
-  speed: '',
+  hp: 0,
+  attack: 0,
+  defense: 0,
+  specialAttack: 0,
+  specialDefense: 0,
+  speed: 0,
 };
 
 export const setGradient = (color: string) =>

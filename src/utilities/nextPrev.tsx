@@ -1,4 +1,7 @@
-export const nextPokemon = (setIndex, listItemRefs) => {
+export const nextPokemon = (
+  setIndex: React.Dispatch<React.SetStateAction<number>>,
+  listItemRefs: React.RefObject<HTMLLIElement[]>
+) => {
   setIndex((prev) => {
     const newIndex = Math.min(
       prev + 1,
@@ -14,7 +17,10 @@ export const nextPokemon = (setIndex, listItemRefs) => {
   });
 };
 
-export const prevPokemon = (setIndex, listItemRefs) => {
+export const prevPokemon = (
+  setIndex: React.Dispatch<React.SetStateAction<number>>,
+  listItemRefs: React.RefObject<HTMLLIElement[]>
+) => {
   setIndex((prev) => {
     const newIndex = Math.max(prev - 1, 0);
     listItemRefs.current[newIndex]?.click();

@@ -1,11 +1,18 @@
+import { PokemonDetail, PokemonStats } from '../../types';
 import Stats from './Stats';
 
+type MainProps = {
+  fadeRef: React.RefObject<HTMLDivElement | null>;
+  color: string;
+  pokemonDetail: PokemonDetail;
+  pokemonStats: PokemonStats;
+};
 export const Main = ({
   fadeRef,
   color,
   pokemonDetail,
   pokemonStats,
-}) => {
+}: MainProps) => {
   return (
     <div className="fade-up" ref={fadeRef}>
       <div className="relative h-[15rem]">

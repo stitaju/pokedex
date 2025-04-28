@@ -1,14 +1,26 @@
-import { useRef } from 'react';
+import { RefObject, useRef } from 'react';
 import { useHorizontalScroll } from '../../hooks/useHorizontalScroll';
+import { PokemonSpecies } from '../../types';
 
+type TopBarProps = {
+  selectedIndex: number;
+  species: PokemonSpecies[];
+  setListItemRef: (
+    index: number
+  ) => (el: HTMLLIElement | null) => void;
+  handleSpeciesClick: (
+    species: PokemonSpecies,
+    index: number
+  ) => void;
+};
 export const TopBar = ({
   selectedIndex,
   species,
   setListItemRef,
   handleSpeciesClick,
-}) => {
+}: TopBarProps) => {
   const scrollRef = useRef<HTMLUListElement>(null);
-  useHorizontalScroll(scrollRef);
+  useHorizontalScroll(scrollRef as RefObject<HTMLElement>);
 
   return (
     <ul

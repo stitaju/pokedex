@@ -3,7 +3,15 @@ import {
   prevPokemon,
 } from '../../utilities/nextPrev';
 
-export const Chevron = ({ setIndex, listItemRefs }) => {
+type ChevronProps = {
+  setIndex: React.Dispatch<React.SetStateAction<number>>;
+  listItemRefs: React.RefObject<HTMLLIElement[]>;
+};
+
+export const Chevron = ({
+  setIndex,
+  listItemRefs,
+}: ChevronProps) => {
   return (
     <div className="chevron-icons absolute left-50 top-[40%] w-[80%]">
       <div className="flex justify-between text-9xl opacity-30">

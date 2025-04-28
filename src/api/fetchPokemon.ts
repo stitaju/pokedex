@@ -1,12 +1,25 @@
 import axios from 'axios';
 import toCamelCase from '../utilities/toCamelCase';
+import {
+  GenericPokemonStats,
+  PokemonDetail,
+  PokemonStatDetail,
+  PokemonStats,
+  SelectedPokemon,
+} from '../types';
 
 export const fetchPokemonDetails = async (
   speciesUrl: string,
-  setSelectedPokemon,
-  setColor,
-  setPokemonDetail,
-  setPokemonStats
+  setSelectedPokemon: React.Dispatch<
+    React.SetStateAction<SelectedPokemon | null>
+  >,
+  setColor: React.Dispatch<React.SetStateAction<string>>,
+  setPokemonDetail: React.Dispatch<
+    React.SetStateAction<PokemonDetail>
+  >,
+  setPokemonStats: React.Dispatch<
+    React.SetStateAction<PokemonStats>
+  >
 ) => {
   try {
     const { data: speciesData } = await axios.get(
@@ -32,14 +45,16 @@ export const fetchPokemonDetails = async (
       abilities: pokemonData.abilities[0].ability.name,
     });
 
-    const updatedStats: any = {};
+    const updatedStats: GenericPokemonStats = {};
 
-    pokemonData.stats.forEach((stat: any) => {
+    pokemonData.stats.forEach((stat: PokemonStatDetail) => {
+      console.log('Sttat', stat);
+
       updatedStats[toCamelCase(stat.stat.name)] =
         stat.base_stat;
     });
     console.log('updatedStats', updatedStats);
-    setPokemonStats(updatedStats);
+    setPokemonStats(updatedStats as PokemonStats);
   } catch (error) {
     console.error('Error fetching Pokémon details:', error);
   }

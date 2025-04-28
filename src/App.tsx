@@ -16,23 +16,27 @@ import { TopBar } from './components/layout/TopBar';
 import { Chevron } from './components/ui/Chevron';
 import { Filter } from './components/filter/Filter';
 import { Main } from './components/layout/Main';
+import { PokemonSpecies, SelectedPokemon } from './types';
 
 function App() {
-  const [index, setIndex] = useState(0);
-  const [species, setSpecies] = useState<any>([]);
+  const [, setIndex] = useState(0);
+  const [species, setSpecies] = useState<PokemonSpecies[]>(
+    []
+  );
+
   const [selectedIndex, setSelectedIndex] = useState<
     number | null
   >(0);
   const [selectedPokemon, setSelectedPokemon] =
-    useState<any>(null);
+    useState<SelectedPokemon | null>(null);
   const [color, setColor] = useState<string>('green');
   const [pokemonDetail, setPokemonDetail] =
     useState(INITIAL_DETAIL);
   const [pokemonStats, setPokemonStats] =
     useState(INITIAL_STATS);
 
-  const mainRef = useRef<HTMLUListElement>(null);
-  const fadeRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLUListElement | null>(null);
+  const fadeRef = useRef<HTMLDivElement | null>(null);
   const listItemRefs = useRef<HTMLLIElement[]>([]);
 
   const setListItemRef =
@@ -41,7 +45,7 @@ function App() {
     };
 
   const handleSpeciesClick = (
-    speciesItem: any,
+    speciesItem: PokemonSpecies,
     index: number
   ) => {
     fetchPokemonDetails(
@@ -56,7 +60,6 @@ function App() {
 
   useEffect(() => {
     fetchSpecies(setSpecies, listItemRefs);
-    console.log(mainRef);
 
     setTimeout(() => {
       mainRef.current?.focus();
@@ -84,13 +87,12 @@ function App() {
         <Filter />
         {species && (
           <TopBar
-            selectedIndex={selectedIndex}
+            selectedIndex={selectedIndex ?? -1}
             species={species}
             setListItemRef={setListItemRef}
             handleSpeciesClick={handleSpeciesClick}
           />
         )}
-
         {selectedPokemon && (
           <Main
             fadeRef={fadeRef}
