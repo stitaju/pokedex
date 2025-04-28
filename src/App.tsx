@@ -19,7 +19,7 @@ import { Main } from './components/layout/Main';
 import { PokemonSpecies, SelectedPokemon } from './types';
 
 function App() {
-  const [index, setIndex] = useState(0);
+  const [, setIndex] = useState(0);
   const [species, setSpecies] = useState<PokemonSpecies[]>(
     []
   );
@@ -48,23 +48,17 @@ function App() {
     speciesItem: PokemonSpecies,
     index: number
   ) => {
-    fetchPokemonDetails(
-      speciesItem.url,
-      setSelectedPokemon,
-      setColor,
-      setPokemonDetail,
-      setPokemonStats
-    );
+    if (species) {
+      fetchPokemonDetails(
+        speciesItem.url,
+        setSelectedPokemon,
+        setColor,
+        setPokemonDetail,
+        setPokemonStats
+      );
+    }
     setSelectedIndex(index);
   };
-
-  useEffect(() => {
-    fetchSpecies(setSpecies, listItemRefs);
-    handleSpeciesClick(species[0], index);
-    setTimeout(() => {
-      mainRef.current?.focus();
-    }, 0);
-  }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowRight') {
@@ -74,6 +68,17 @@ function App() {
       prevPokemon(setIndex, listItemRefs);
     }
   };
+
+  useEffect(() => {
+    fetchSpecies(
+      setSpecies,
+      listItemRefs,
+      setSelectedPokemon
+    );
+    setTimeout(() => {
+      mainRef.current?.focus();
+    }, 0);
+  }, []);
 
   return (
     <section

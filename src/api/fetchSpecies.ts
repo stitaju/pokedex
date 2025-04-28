@@ -1,12 +1,15 @@
 import axios from 'axios';
 import { sortByEvolution } from '../utilities/sorting';
-import { PokemonSpecies } from '../types';
+import { PokemonSpecies, SelectedPokemon } from '../types';
 
 export const fetchSpecies = async (
   setSpecies: React.Dispatch<
     React.SetStateAction<PokemonSpecies[]>
   >,
-  listItemRefs: React.RefObject<HTMLLIElement[]>
+  listItemRefs: React.RefObject<HTMLLIElement[]>,
+  setSelectedPokemon: React.Dispatch<
+    React.SetStateAction<SelectedPokemon | null>
+  >
 ) => {
   try {
     const { data } = await axios.get(
@@ -15,6 +18,11 @@ export const fetchSpecies = async (
     const sortedSpecies = sortByEvolution(data);
     setSpecies(sortedSpecies);
     console.log(sortedSpecies);
+
+    const { data: speciesData } = await axios.get(
+      sortedSpecies[0].url
+    );
+    setSelectedPokemon(speciesData);
 
     setTimeout(() => {
       listItemRefs?.current[0]?.click();
