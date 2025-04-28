@@ -19,7 +19,7 @@ import { Main } from './components/layout/Main';
 import { PokemonSpecies, SelectedPokemon } from './types';
 
 function App() {
-  const [index, setIndex] = useState(0);
+  const [, setIndex] = useState(0);
   const [species, setSpecies] = useState<PokemonSpecies[]>(
     []
   );
@@ -70,21 +70,17 @@ function App() {
   };
 
   useEffect(() => {
-    fetchSpecies(setSpecies, listItemRefs);
-  }, []);
-
-  useEffect(() => {
-    if (species && species[index]) {
-      console.log('Fetch First Details When Page Loads');
-      fetchPokemonDetails(
-        species[index].url,
+    if (species) {
+      fetchSpecies(
+        setSpecies,
         setSelectedPokemon,
         setColor,
         setPokemonDetail,
         setPokemonStats
       );
+      mainRef.current?.focus();
     }
-  }, [species]);
+  }, []);
 
   return (
     <section

@@ -1,12 +1,27 @@
 import axios from 'axios';
 import { sortByEvolution } from '../utilities/sorting';
-import { PokemonSpecies } from '../types';
+import {
+  PokemonDetail,
+  PokemonSpecies,
+  PokemonStats,
+  SelectedPokemon,
+} from '../types';
+import { fetchPokemonDetails } from './fetchPokemon';
 
 export const fetchSpecies = async (
   setSpecies: React.Dispatch<
     React.SetStateAction<PokemonSpecies[]>
   >,
-  listItemRefs: React.RefObject<HTMLLIElement[]>
+  setSelectedPokemon: React.Dispatch<
+    React.SetStateAction<SelectedPokemon | null>
+  >,
+  setColor: React.Dispatch<React.SetStateAction<string>>,
+  setPokemonDetail: React.Dispatch<
+    React.SetStateAction<PokemonDetail>
+  >,
+  setPokemonStats: React.Dispatch<
+    React.SetStateAction<PokemonStats>
+  >
 ) => {
   try {
     const { data } = await axios.get(
@@ -14,9 +29,15 @@ export const fetchSpecies = async (
     );
     const sortedSpecies = sortByEvolution(data);
     setSpecies(sortedSpecies);
-    setTimeout(() => {
-      listItemRefs?.current[0]?.click();
-    });
+    console.log('data', data.pokemon_species);
+
+    fetchPokemonDetails(
+      data.pokemon_species[0].url,
+      setSelectedPokemon,
+      setColor,
+      setPokemonDetail,
+      setPokemonStats
+    );
   } catch (error) {
     console.error('Error fetching species:', error);
   }
