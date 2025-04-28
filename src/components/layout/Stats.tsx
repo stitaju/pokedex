@@ -1,4 +1,4 @@
-import { Progressbar } from './Progressbar';
+import { Progressbar } from '../ui/Progressbar';
 
 interface Props {
   label: string;
