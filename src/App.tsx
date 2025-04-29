@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import './App.css';
+import './style/App.css';
+import gsap from 'gsap';
 
 import { fetchSpecies } from './api/fetchSpecies';
 import {
@@ -17,8 +18,10 @@ import { Chevron } from './components/ui/Chevron';
 import { Filter } from './components/filter/Filter';
 import { Main } from './components/layout/Main';
 import { PokemonSpecies, SelectedPokemon } from './types';
+import { Loading } from './components/ui/Loading';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [, setIndex] = useState(0);
   const [species, setSpecies] = useState<PokemonSpecies[]>(
     []
@@ -35,6 +38,7 @@ function App() {
   const [pokemonStats, setPokemonStats] =
     useState(INITIAL_STATS);
 
+  const loadingRef = useRef<HTMLDivElement | null>(null);
   const mainRef = useRef<HTMLUListElement | null>(null);
   const fadeRef = useRef<HTMLDivElement | null>(null);
   const listItemRefs = useRef<HTMLLIElement[]>([]);
@@ -70,17 +74,41 @@ function App() {
   };
 
   useEffect(() => {
+    mainRef.current?.focus();
+  }, [species]);
+
+  useEffect(() => {
     if (species) {
       fetchSpecies(
         setSpecies,
         setSelectedPokemon,
         setColor,
         setPokemonDetail,
-        setPokemonStats
+        setPokemonStats,
+        setIsLoading
       );
-      mainRef.current?.focus();
     }
   }, []);
+
+  useEffect(() => {
+    if (isLoading && loadingRef.current) {
+      gsap.fromTo(
+        loadingRef.current,
+        { opacity: 0, y: 50, scale: 1.05 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.05,
+          ease: 'power2.out',
+        }
+      );
+    }
+  }, [isLoading]);
+
+  if (isLoading) {
+    return <Loading loadingRef={loadingRef} />;
+  }
 
   return (
     <section

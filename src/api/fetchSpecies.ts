@@ -21,9 +21,15 @@ export const fetchSpecies = async (
   >,
   setPokemonStats: React.Dispatch<
     React.SetStateAction<PokemonStats>
+  >,
+  setIsLoading: React.Dispatch<
+    React.SetStateAction<boolean>
   >
 ) => {
   try {
+    setIsLoading(true);
+    await new Promise((res) => setTimeout(res, 2500));
+
     const { data } = await axios.get(
       'https://pokeapi.co/api/v2/generation/1/'
     );
@@ -40,5 +46,7 @@ export const fetchSpecies = async (
     );
   } catch (error) {
     console.error('Error fetching species:', error);
+  } finally {
+    setIsLoading(false);
   }
 };
