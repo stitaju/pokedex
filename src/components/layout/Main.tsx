@@ -61,7 +61,7 @@ export const Main = ({
         <p className="md:text-5xl text-3xl  font-bold">
           Stats
         </p>
-        <div className="flex flex-col gap-5 md:text-base text-xl">
+        <div className="flex flex-col gap-5 md:text-2xl text-xl">
           <Stats label="Hp" stat={pokemonStats.hp} />
           <Stats
             label="Attack"
