@@ -12,7 +12,7 @@ export const Loading = ({ loadingRef }: LoadingProps) => {
     >
       <h1
         style={{ color: '#fafafa' }}
-        className="absolute opacity-100 text-[15rem] font-[900] top-[50] left-[50]select-none"
+        className="absolute opacity-100 text-[15rem] font-[900] top-[50] left-[50] select-none"
       >
         LOADING
       </h1>
