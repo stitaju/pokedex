@@ -42,7 +42,7 @@ export const Main = ({
         {pokemonDetail.name}
       </h1>
 
-      <div className="text-2xl flex gap-15 sm:gap-2">
+      <div className="text-2xl flex gap-2 md:gap-15">
         <p className="flex items-center gap-2">
           <span>Height:</span>{' '}
           <span className="capitalize font-semibold">
