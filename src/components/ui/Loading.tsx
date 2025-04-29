@@ -11,8 +11,11 @@ export const Loading = ({ loadingRef }: LoadingProps) => {
       className="main-app w-[100vw] h-[100vh] flex items-center justify-center z-50 fixed top-0 left-0"
     >
       <h1
-        style={{ color: '#fafafa' }}
-        className="absolute opacity-100 text-[15rem] font-[900] top-[50] left-[50] select-none"
+        style={{
+          color: '#fafafa',
+          transform: 'translate(-50%,-50%)',
+        }}
+        className="absolute opacity-100 text-[15rem] font-[900] top-[50%] left-[50%] select-none"
       >
         LOADING
       </h1>
