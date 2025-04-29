@@ -11,6 +11,8 @@ html {
   cursor: url('https://assets.pokemon.com/static2/_ui/img/favicon.ico')
       8 8,
     auto;
+
+  user-select: none;
 }
 
 .main-app {

@@ -19,6 +19,12 @@ import { Filter } from './components/filter/Filter';
 import { Main } from './components/layout/Main';
 import { PokemonSpecies, SelectedPokemon } from './types';
 import { Loading } from './components/ui/Loading';
+import { Copyright } from './components/ui/Copyright';
+import {
+  handleTouchEnd,
+  handleTouchMove,
+  handleTouchStart,
+} from './utilities/handleTouch';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,6 +43,12 @@ function App() {
     useState(INITIAL_DETAIL);
   const [pokemonStats, setPokemonStats] =
     useState(INITIAL_STATS);
+  const [touchStartX, setTouchStartX] = useState<
+    number | null
+  >(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(
+    null
+  );
 
   const loadingRef = useRef<HTMLDivElement | null>(null);
   const mainRef = useRef<HTMLUListElement | null>(null);
@@ -118,6 +130,20 @@ function App() {
       onKeyDown={(e) => handleKeyDown(e)}
       tabIndex={0}
       ref={mainRef}
+      onTouchStart={(e) =>
+        handleTouchStart(e, setTouchStartX)
+      }
+      onTouchMove={(e) => handleTouchMove(e, setTouchEndX)}
+      onTouchEnd={() =>
+        handleTouchEnd(
+          touchStartX,
+          touchEndX,
+          setTouchStartX,
+          setTouchEndX,
+          setIndex,
+          listItemRefs
+        )
+      }
     >
       <div className="wrapper">
         <Filter />
@@ -144,17 +170,7 @@ function App() {
           listItemRefs={listItemRefs}
         />
       )}
-      <p className="developed-by flex items-center gap-2 absolute bottom-[7rem] right-[-3rem] rotate-270">
-        <div className="line border-b-2 border-amber-50  w-[55px]"></div>
-        Developed By:{' '}
-        <a
-          href="https://sirishtitaju.com.np/"
-          target="_blank"
-          className="font-medium hover:text-blue-200"
-        >
-          SIRISH
-        </a>
-      </p>
+      <Copyright />
     </section>
   );
 }

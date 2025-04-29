@@ -31,8 +31,8 @@ export const Loading = ({ loadingRef }: LoadingProps) => {
           className="text-xl flex items-center justify-center"
           style={{ color: 'black' }}
         >
-          <strong>Tip: &nbsp;</strong> Use ⬅️ and ➡️ to
-          navigate
+          <strong>Tip: &nbsp;</strong> Press or Swipe ⬅️ /
+          ➡️ to navigate
         </span>
       </div>
     </section>
