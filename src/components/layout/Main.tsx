@@ -20,7 +20,7 @@ export const Main = ({
           #{String(pokemonDetail.id).padStart(3, '0')}
         </h1>
         <img
-          className="absolute right-[8rem] top-[3.5rem]"
+          className="pokemon-img absolute right-[8rem] top-[3.5rem]"
           src={
             pokemonDetail.image ||
             'https://via.placeholder.com/150'
@@ -42,7 +42,7 @@ export const Main = ({
         {pokemonDetail.name}
       </h1>
 
-      <div className="text-2xl flex gap-15">
+      <div className="text-2xl flex gap-15 sm:gap-2">
         <p className="flex items-center gap-2">
           <span>Height:</span>{' '}
           <span className="capitalize font-semibold">

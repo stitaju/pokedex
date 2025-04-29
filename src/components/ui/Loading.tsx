@@ -8,7 +8,7 @@ export const Loading = ({ loadingRef }: LoadingProps) => {
   return (
     <section
       ref={loadingRef}
-      className="main-app w-[100vw] h-[100vh] flex items-center justify-center z-50 fixed top-0 left-0"
+      className="w-[100vw] h-[100vh] flex items-center justify-center z-50 fixed top-0 left-0"
     >
       <h1
         style={{

@@ -61,3 +61,27 @@ html {
 .fade-up {
   animation: fadeUp 0.75s ease-in-out forwards;
 }
+
+@media screen and (max-width: 500px) {
+  .main-app {
+    height: auto;
+  }
+  .pokemon-img {
+    width: 280px !important;
+    right: 0;
+  }
+  .stats {
+    grid-template-columns: 1fr !important;
+  }
+  .sm\:gap-2 {
+    gap: 1.5rem; /* 8px */
+  }
+  .developed-by,
+  .chevron-icons {
+    display: none;
+  }
+  .number {
+    top: 0;
+    left: -1.8rem;
+  }
+}

@@ -65,6 +65,7 @@ function App() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    e.preventDefault();
     if (e.key === 'ArrowRight') {
       nextPokemon(setIndex, listItemRefs);
     }
@@ -143,7 +144,7 @@ function App() {
           listItemRefs={listItemRefs}
         />
       )}
-      <p className="flex items-center gap-2 absolute bottom-[7rem] right-[-3rem] rotate-270">
+      <p className="developed-by flex items-center gap-2 absolute bottom-[7rem] right-[-3rem] rotate-270">
         <div className="line border-b-2 border-amber-50  w-[55px]"></div>
         Developed By:{' '}
         <a

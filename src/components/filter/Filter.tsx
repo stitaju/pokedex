@@ -2,7 +2,7 @@ import { Search } from './Search';
 
 export const Filter = () => {
   return (
-    <div className="flex justify-between z-[2]">
+    <div className="flex justify-between items-center z-[2]">
       <Search />
       <h1 className="flex">
         Filter
