@@ -47,6 +47,6 @@ export const fetchSpecies = async (
   } catch (error) {
     console.error('Error fetching species:', error);
   } finally {
-    setIsLoading(false);
+    // setIsLoading(false);
   }
 };
