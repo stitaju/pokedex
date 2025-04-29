@@ -67,10 +67,11 @@ html {
 @media screen and (max-width: 500px) {
   .main-app {
     height: auto;
+    overflow-x: hidden !important;
   }
   .pokemon-img {
     width: 280px !important;
-    right: 0;
+    right: -2rem;
   }
   .stats {
     grid-template-columns: 1fr !important;

@@ -7,11 +7,9 @@ interface Props {
 const Stats = ({ label, stat }: Props) => {
   return (
     <div className="grid grid-cols-[25%_65%_10%] items-center gap-3">
-      <p className="text-[1.4rem]">{label}</p>
+      <p>{label}</p>
       <Progressbar width={Number(stat)} />
-      <p className="text-[1.4rem] font-bold">
-        {Number(stat)}
-      </p>
+      <p className="font-bold">{Number(stat)}</p>
     </div>
   );
 };

@@ -38,11 +38,11 @@ export const Main = ({
         {pokemonDetail.type}
       </div>
 
-      <h1 className="text-[4em] font-bold capitalize mt-[-1rem]">
+      <h1 className="md:text-[4em] text-[3em] font-bold capitalize mt-[-1rem]">
         {pokemonDetail.name}
       </h1>
 
-      <div className="text-2xl flex gap-2 md:gap-15">
+      <div className="md:text-2xl text-xl flex gap-8 md:gap-15">
         <p className="flex items-center gap-2">
           <span>Height:</span>{' '}
           <span className="capitalize font-semibold">
@@ -58,8 +58,10 @@ export const Main = ({
       </div>
 
       <section className="stats mt-15">
-        <p className="text-5xl font-bold">Stats</p>
-        <div className="flex flex-col gap-5">
+        <p className="md:text-5xl text-3xl  font-bold">
+          Stats
+        </p>
+        <div className="flex flex-col gap-5 md:text-base text-xl">
           <Stats label="Hp" stat={pokemonStats.hp} />
           <Stats
             label="Attack"
