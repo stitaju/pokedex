@@ -30,12 +30,17 @@ import { fetchSpecies } from '../api/fetchSpecies';
 import { Loading } from '../components/ui/Loading'; // Import Loading component
 import gsap from 'gsap'; // Import gsap
 // Import the context hook and action creator
-import { usePokemonContext } from '../global-state/contexts/PokemonContext';
+import { usePokemonContext } from '../global-state/contexts/pokemonContext';
 import { setLoading } from '../global-state/actions/pokemonActions';
+// Import useForm
+import { useFilterContext } from '../global-state/contexts/FilterContext';
+import { fetchFavoriteData } from '../api/favorites';
 
 export const MainApp = () => {
   // Consume isLoading and dispatch from the context
   const { isLoading, dispatch } = usePokemonContext();
+
+  // Initialize react-hook-form and get the watch function
 
   // Manage ALL other state and refs here in MainApp
   const [, setIndex] = useState(0);
@@ -59,6 +64,8 @@ export const MainApp = () => {
     null
   );
 
+  console.log('Species....Details...', species);
+
   const loadingRef = useRef<HTMLDivElement | null>(null); // Keep loadingRef here
   const mainRef = useRef<HTMLUListElement | null>(null);
   const fadeRef = useRef<HTMLDivElement | null>(null);
@@ -74,6 +81,8 @@ export const MainApp = () => {
     speciesItem: PokemonSpecies,
     index: number
   ) => {
+    console.log(speciesItem, index);
+
     if (species) {
       // Use MainApp's internal state setters
       fetchPokemonDetails(
@@ -122,32 +131,33 @@ export const MainApp = () => {
     );
   };
 
+  const { filterData } = useFilterContext();
+  // Depend on showFavourites from context
+
   // Effect to fetch initial data (moved back to MainApp)
+  const fetchInitialData = async () => {
+    dispatch(setLoading(true)); // Dispatch action from context to set loading true
+    try {
+      // Use MainApp's internal state setters for other data
+      // Modify fetchSpecies to return data or accept setters directly
+      // Assuming fetchSpecies is modified to accept setters as before
+      await fetchSpecies(
+        setSpecies,
+        setSelectedPokemon,
+        setColor,
+        setPokemonDetail,
+        setPokemonStats,
+        () => {} // Dummy setIsLoading for the original fetchSpecies signature
+      );
+    } catch (error) {
+      console.error('Failed to fetch initial data:', error);
+      // Handle error state if needed
+    } finally {
+      dispatch(setLoading(false)); // Dispatch action from context to set loading false
+    }
+  };
+
   useEffect(() => {
-    const fetchInitialData = async () => {
-      dispatch(setLoading(true)); // Dispatch action from context to set loading true
-      try {
-        // Use MainApp's internal state setters for other data
-        // Modify fetchSpecies to return data or accept setters directly
-        // Assuming fetchSpecies is modified to accept setters as before
-        await fetchSpecies(
-          setSpecies,
-          setSelectedPokemon,
-          setColor,
-          setPokemonDetail,
-          setPokemonStats,
-          () => {} // Dummy setIsLoading for the original fetchSpecies signature
-        );
-      } catch (error) {
-        console.error(
-          'Failed to fetch initial data:',
-          error
-        );
-        // Handle error state if needed
-      } finally {
-        dispatch(setLoading(false)); // Dispatch action from context to set loading false
-      }
-    };
     fetchInitialData();
   }, [dispatch]); // dispatch is stable, include it
 
@@ -169,6 +179,11 @@ export const MainApp = () => {
     }
   }, [isLoading]); // Depend on isLoading from context
 
+  console.log(
+    'Show Favourites is now:',
+
+    localStorage.getItem('myForm')
+  );
   // Effect to focus the main element (uses isLoading from context and internal species state)
   useEffect(() => {
     if (!isLoading && species.length > 0) {
@@ -177,11 +192,64 @@ export const MainApp = () => {
     }
   }, [isLoading, species]); // Depend on isLoading and internal species state
 
+  useEffect(() => {
+    if (filterData?.showFavourites) {
+      //Fetch the details of the favourites and destruct the name and pass the matched names in the species in the topbar
+      const favData = fetchFavoriteData('Sirish Titaju');
+      dispatch(setLoading(true));
+      favData.then((data: any) => {
+        const favNames = data?.map(
+          (item: any) => item.name
+        );
+        const filteredSpecies = species.filter(
+          (speciesItem: PokemonSpecies) =>
+            favNames.includes(speciesItem.name)
+        );
+
+        setTimeout(() => {
+          dispatch(setLoading(false));
+        }, 900);
+        setSpecies(filteredSpecies);
+      });
+    } else {
+      fetchInitialData();
+    }
+  }, [filterData]); // This effect depends on filterData, which should contain the persisted value
+
   // Conditional rendering based on isLoading state from context
   if (isLoading) {
     return <Loading loadingRef={loadingRef} />;
   }
 
+  if (!species || species.length === 0) {
+    return (
+      <section
+        className="main-app relative"
+        style={{ background: setGradient(color) }} // Use color from MainApp's state
+        onKeyDown={handleKeyDown} // Use handler from MainApp
+        tabIndex={0}
+        ref={mainRef as RefObject<HTMLUListElement>} // Use ref from MainApp (cast if needed)
+        onTouchStart={handleTouchStartInternal} // Use handler from MainApp
+        onTouchMove={handleTouchMoveInternal} // Use handler from MainApp
+        onTouchEnd={handleTouchEndInternal} // Use handler from MainApp
+      >
+        <div className="flex flex-col gap-5  justify-center items-center h-[100%] text-2xl">
+          <h1 className="text-[2rem] font-bold">
+            {' '}
+            No Pokemon found :(
+          </h1>
+          <button
+            className="p-4 bg-white cursor-pointer text-black font-bold hover:bg-blue-500 rounded-lg"
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            Go Back
+          </button>
+        </div>
+      </section>
+    );
+  }
   // Render the main content once loading is complete
   return (
     <section
@@ -210,6 +278,9 @@ export const MainApp = () => {
           pokemonDetail={pokemonDetail} // Pass state from MainApp
           pokemonStats={pokemonStats} // Pass state from MainApp
           selectedPokemon={selectedPokemon} // Pass state from MainApp for conditional rendering
+          species={species}
+          setSpecies={setSpecies}
+          handleSpeciesClick={handleSpeciesClick}
         />
       </div>
       <PokemonControls

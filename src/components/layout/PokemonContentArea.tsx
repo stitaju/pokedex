@@ -1,6 +1,9 @@
 import React, { RefObject } from 'react';
 import { Main } from './Main'; // Import the existing Main component
-import { SelectedPokemon } from '../../types'; // Import types
+import {
+  PokemonSpecies,
+  SelectedPokemon,
+} from '../../types'; // Import types
 
 // Define the props this component needs
 interface PokemonContentAreaProps {
@@ -9,6 +12,12 @@ interface PokemonContentAreaProps {
   pokemonDetail: any; // Consider a more specific type
   pokemonStats: any; // Consider a more specific type
   selectedPokemon: SelectedPokemon | null; // Needed for conditional rendering
+  species: any;
+  setSpecies: any;
+  handleSpeciesClick: (
+    species: PokemonSpecies,
+    index: number
+  ) => void;
 }
 
 export const PokemonContentArea: React.FC<
@@ -19,6 +28,9 @@ export const PokemonContentArea: React.FC<
   pokemonDetail,
   pokemonStats,
   selectedPokemon,
+  species,
+  setSpecies,
+  handleSpeciesClick,
 }) => {
   // Render the Main component only if a Pokemon is selected
   if (!selectedPokemon) {
@@ -26,16 +38,15 @@ export const PokemonContentArea: React.FC<
   }
 
   return (
-    <div className="wrapper">
-      {/* Filter is kept in index.tsx for now */}
-      {/* <Filter /> */}
-
-      {/* Render the Main component, passing its required props */}
+    <div className="wrapper relative">
       <Main
         fadeRef={fadeRef}
         color={color}
         pokemonDetail={pokemonDetail}
         pokemonStats={pokemonStats}
+        species={species}
+        setSpecies={setSpecies}
+        handleSpeciesClick={handleSpeciesClick}
       />
     </div>
   );

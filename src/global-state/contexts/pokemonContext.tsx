@@ -4,6 +4,7 @@ import React, {
   useReducer,
   ReactNode,
 } from 'react';
+
 import {
   initialPokemonState,
   pokemonReducer,
@@ -12,6 +13,7 @@ import { PokemonActionTypes } from '../actions/pokemonActions';
 
 interface PokemonContextType {
   isLoading: boolean;
+  isModalOpen: boolean;
   dispatch: React.Dispatch<PokemonActionTypes>;
 }
 
@@ -42,8 +44,8 @@ export const PokemonProvider: React.FC<
     pokemonReducer,
     initialPokemonState
   );
-
   const contextValue: PokemonContextType = {
+    isModalOpen: state.isModalOpen,
     isLoading: state.isLoading, // Provide isLoading from reducer state
     dispatch, // Provide the dispatch function
   };

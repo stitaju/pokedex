@@ -28,7 +28,7 @@ export const fetchSpecies = async (
 ) => {
   try {
     setIsLoading(true);
-    await new Promise((res) => setTimeout(res, 2500));
+    await new Promise((res) => setTimeout(res, 1200));
 
     const { data } = await axios.get(
       'https://pokeapi.co/api/v2/generation/1/'

@@ -13,7 +13,7 @@ export const Chevron = ({
   listItemRefs,
 }: ChevronProps) => {
   return (
-    <div className="chevron-icons absolute left-50 top-[40%] w-[80%]">
+    <div className="chevron-icons absolute left-50 top-[40%] w-[80%] z-[-1]">
       <div className="flex justify-between text-9xl opacity-30">
         <span
           role="button"
