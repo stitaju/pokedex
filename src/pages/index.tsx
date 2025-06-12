@@ -273,7 +273,7 @@ export const MainApp = () => {
     return (
       <section
         className="main-app relative"
-        // style={{ background: setGradient(color) }} // Use color from MainApp's state
+        style={{ background: setGradient(color) }} // Use color from MainApp's state
         onKeyDown={handleKeyDown} // Use handler from MainApp
         tabIndex={0}
         ref={mainRef as RefObject<HTMLUListElement>} // Use ref from MainApp (cast if needed)
@@ -302,7 +302,7 @@ export const MainApp = () => {
   return (
     <section
       className="main-app relative"
-      // style={{ background: setGradient(color) }} // Use color from MainApp's state
+      style={{ background: setGradient(color) }} // Use color from MainApp's state
       // onKeyDown={handleKeyDown} // Use handler from MainApp
       tabIndex={0}
       ref={mainRef as RefObject<HTMLUListElement>} // Use ref from MainApp (cast if needed)
