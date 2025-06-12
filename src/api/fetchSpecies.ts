@@ -35,8 +35,6 @@ export const fetchSpecies = async (
     );
     const sortedSpecies = sortByEvolution(data);
     setSpecies(sortedSpecies);
-    console.log('data', data.pokemon_species);
-
     fetchPokemonDetails(
       data.pokemon_species[0].url,
       setSelectedPokemon,

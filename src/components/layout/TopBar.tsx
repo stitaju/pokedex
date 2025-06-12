@@ -30,7 +30,7 @@ export const TopBar = ({
 
   return (
     <ul
-      className="relative flex gap-2 overflow-x-auto mt-5 z-[2]"
+      className="relative flex gap-2 overflow-x-auto z-[2]"
       ref={scrollRef}
     >
       {species?.map((speciesItem, index) => (

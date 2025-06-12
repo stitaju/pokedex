@@ -13,6 +13,7 @@ html {
     auto;
 
   user-select: none;
+  background: #000;
 }
 
 .main-app {

@@ -37,7 +37,7 @@ import { setLoading } from '../global-state/actions/pokemonActions';
 import { useFilterContext } from '../global-state/contexts/FilterContext';
 import { fetchFavoriteData } from '../api/favorites';
 
-export const MainApp = () => {
+export const Compare = () => {
   // Consume isLoading and dispatch from the context
   const { isLoading, dispatch } = usePokemonContext();
 
@@ -71,20 +71,6 @@ export const MainApp = () => {
   const mainRef = useRef<HTMLUListElement | null>(null);
   const fadeRef = useRef<HTMLDivElement | null>(null);
   const listItemRefs = useRef<HTMLLIElement[]>([]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-
-  // Calculate pagination values
-  const totalPages = Math.ceil(
-    species.length / itemsPerPage
-  );
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentSpecies = species.slice(
-    startIndex,
-    endIndex
-  );
 
   // Define ALL handler functions here in MainApp
   const setListItemRef =
@@ -257,13 +243,6 @@ export const MainApp = () => {
     }
   }, [filterData]); // This effect depends on filterData, which should contain the persisted value
 
-  // Add pagination handlers
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    // Reset selected index when changing pages
-    setSelectedIndex(null);
-  };
-
   // Conditional rendering based on isLoading state from context
   if (isLoading) {
     return <Loading loadingRef={loadingRef} />;
@@ -273,7 +252,7 @@ export const MainApp = () => {
     return (
       <section
         className="main-app relative"
-        // style={{ background: setGradient(color) }} // Use color from MainApp's state
+        style={{ background: setGradient(color) }} // Use color from MainApp's state
         onKeyDown={handleKeyDown} // Use handler from MainApp
         tabIndex={0}
         ref={mainRef as RefObject<HTMLUListElement>} // Use ref from MainApp (cast if needed)
@@ -302,7 +281,7 @@ export const MainApp = () => {
   return (
     <section
       className="main-app relative"
-      // style={{ background: setGradient(color) }} // Use color from MainApp's state
+      style={{ background: setGradient(color) }} // Use color from MainApp's state
       // onKeyDown={handleKeyDown} // Use handler from MainApp
       tabIndex={0}
       ref={mainRef as RefObject<HTMLUListElement>} // Use ref from MainApp (cast if needed)
@@ -319,47 +298,12 @@ export const MainApp = () => {
           fetchAllSpecies={fetchInitialData}
         />
         {species.length > 0 && (
-          <div className="flex flex-col">
-            {/* Add pagination controls */}
-            <div className="flex justify-center items-center gap-8 mt-4 mb-4">
-              <div className="flex items-center justify-center gap-8">
-                <button
-                  onClick={() =>
-                    handlePageChange(currentPage - 1)
-                  }
-                  disabled={currentPage === 1}
-                  style={{
-                    display: `${
-                      currentPage === 1
-                        ? 'none'
-                        : 'inline-block'
-                    }`,
-                  }}
-                  className="px-4 py-2 bg-white text-black rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500"
-                >
-                  Previous
-                </button>
-                <TopBar
-                  selectedIndex={selectedIndex ?? -1}
-                  species={currentSpecies}
-                  setListItemRef={setListItemRef}
-                  handleSpeciesClick={handleSpeciesClick}
-                />
-                <button
-                  onClick={() =>
-                    handlePageChange(currentPage + 1)
-                  }
-                  disabled={currentPage === totalPages}
-                  className="px-4 py-2 bg-white text-black rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500"
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-            <p className="text-white">
-              Page {currentPage} of {totalPages}
-            </p>
-          </div>
+          <TopBar
+            selectedIndex={selectedIndex ?? -1} // Pass state from MainApp
+            species={species} // Pass state from MainApp
+            setListItemRef={setListItemRef} // Pass handler from MainApp
+            handleSpeciesClick={handleSpeciesClick} // Pass handler from MainApp
+          />
         )}
         <PokemonContentArea
           fadeRef={fadeRef as RefObject<HTMLDivElement>} // Pass ref from MainApp (cast if needed)

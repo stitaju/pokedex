@@ -12,6 +12,7 @@ import {
   fetchFavoriteData,
 } from '../../api/favorites';
 import { useFilterContext } from '../../global-state/contexts/FilterContext';
+import Toast from '../ui/Toast';
 
 type MainProps = {
   fadeRef: React.RefObject<HTMLDivElement | null>;
@@ -62,6 +63,11 @@ export const Main = ({
   handleSpeciesClick,
 }: MainProps) => {
   const [isHeartActive, setIsHeartActive] = useState(false);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: 'success' | 'error';
+  } | null>(null);
+
   const { filterData } = useFilterContext();
 
   const handleHeartClick = async () => {
@@ -79,9 +85,17 @@ export const Main = ({
 
       try {
         await addFavoritePokemon(favoriteData as any);
+        setToast({
+          message: '✅ Added to favorites!',
+          type: 'success',
+        });
       } catch (error) {
         console.error('Failed to add favorite:', error);
         setIsHeartActive(false);
+        setToast({
+          message: '❌ Failed to add to favorites.',
+          type: 'error',
+        });
       }
     } else {
       try {
@@ -89,6 +103,10 @@ export const Main = ({
           Number(pokemonDetail.id),
           userId
         ).then(() => {
+          setToast({
+            message: '🗑️ Deleted from favorites!',
+            type: 'error',
+          });
           const favData =
             fetchFavoriteData('Sirish Titaju');
           favData.then((data: any) => {
@@ -213,6 +231,13 @@ export const Main = ({
           />
           <Stats label="Speed" stat={pokemonStats.speed} />
         </div>
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
       </section>
     </div>
   );

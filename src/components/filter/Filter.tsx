@@ -1,19 +1,43 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Offcanvas } from '../offcanvas/Offcanvas';
 import { Search } from './Search';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { FilterForm } from './FilterForm';
 import { DevTool } from '@hookform/devtools';
 import { useFilterContext } from '../../global-state/contexts/FilterContext';
 import useFormPersist from 'react-hook-form-persist';
+import { searchPokemonTypes } from '../../api/searchPokemonTypes';
+import { PokemonSpecies } from '../../types';
+import { usePokemonContext } from '../../global-state/contexts/pokemonContext';
+import { setLoading } from '../../global-state/actions/pokemonActions';
+import Toast from '../ui/Toast';
 
 // Define the type for the form data
 interface FilterFormData {
-  pokemonType: string;
+  pokemonType: [];
   showFavourites: boolean;
 }
 
-export const Filter = () => {
+export const Filter = ({
+  searchTerm,
+  handleSearch,
+  species,
+  setSpecies,
+  fetchAllSpecies,
+}: {
+  searchTerm: any;
+  handleSearch: (value: string) => void;
+  species: PokemonSpecies[];
+  setSpecies: React.Dispatch<
+    React.SetStateAction<PokemonSpecies[]>
+  >;
+  fetchAllSpecies: any;
+}) => {
+  const { isLoading, dispatch } = usePokemonContext();
+  const [toast, setToast] = useState<{
+    message: string;
+    type: 'success' | 'error';
+  } | null>(null);
   const [isOffcanvasOpen, setIsOffcanvasOpen] =
     useState(false);
 
@@ -41,11 +65,48 @@ export const Filter = () => {
     storage: window.localStorage, // or window.sessionStorage
   });
 
-  const onSubmit = (data: FilterFormData) => {
+  // React-Hook-Form OnSubmit
+  const onSubmit = async (data: FilterFormData) => {
     setFilterData(data);
     setShowFavourites(data?.showFavourites);
     // navigate(`/?fav=${data?.showFavourites}`);
     handleCloseOffcanvas();
+    const types =
+      data?.pokemonType?.map((type: any) =>
+        type?.value.toLowerCase()
+      ) || [];
+
+    if (types.length === 0 && !data?.showFavourites) {
+      // No filters selected: fetch and show all species
+      // setToast({
+      //   message: '🗑️ Removed all Filters!',
+      //   type: 'error',
+      // });
+      fetchAllSpecies();
+      return;
+    }
+
+    const result = await searchPokemonTypes(
+      types,
+      dispatch,
+      setLoading
+    );
+
+    if (result) {
+      const resultNames = new Set(
+        result?.results.map((r) => r.name.toLowerCase())
+      );
+
+      const filteredSpecies = species.filter((s) =>
+        resultNames.has(s.name.toLowerCase())
+      );
+      setToast({
+        message: '✅ Applied selected Filters!',
+        type: 'success',
+      });
+
+      setSpecies(filteredSpecies);
+    }
   };
 
   const { filterData, setShowFavourites, setFilterData } =
@@ -53,7 +114,12 @@ export const Filter = () => {
 
   return (
     <div className="flex relative justify-between items-center z-[100]">
-      <Search />
+      <Search
+        searchTerm={searchTerm}
+        handleSearch={handleSearch}
+        register={register}
+        handleSubmit={handleSubmit}
+      />
       <span className="text-xl font-[600]">
         {filterData?.showFavourites
           ? 'Favourites Pokemon'
@@ -87,11 +153,20 @@ export const Filter = () => {
       >
         <FilterForm
           onSubmit={onSubmit}
+          control={control}
           register={register}
           handleSubmit={handleSubmit}
           watch={watch} //
+          fetchAllSpecies={fetchAllSpecies}
         />
       </Offcanvas>
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       <DevTool control={control} />
     </div>
   );

@@ -6,19 +6,19 @@ interface FavoriteData {
   addedBy: string;
 }
 
-export const addFavoritePokemon = async (favoriteData: FavoriteData) => {
-  try {
-    const response = await axios.post(
-      'http://localhost:5173/api/favorites',
-      favoriteData
-    );
-    console.log('Favorite added:', response.data);
-    return response.data; // Return the response data if needed
-  } catch (error) {
-    console.error('Error adding favorite:', error);
-    throw error; // Re-throw the error to be handled by the caller
-  }
-};
+  export const addFavoritePokemon = async (favoriteData: FavoriteData) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5173/api/favorites',
+        favoriteData
+      );
+      console.log('Favorite added:', response.data);
+      return response.data; // Return the response data if needed
+    } catch (error) {
+      console.error('Error adding favorite:', error);
+      throw error; // Re-throw the error to be handled by the caller
+    }
+  };
 
 // Add a new function to delete a favorite
 export const deleteFavoritePokemon = async (id: number, addedBy: string) => {
